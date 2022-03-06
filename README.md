@@ -1,6 +1,6 @@
 # Feature Flagging
 
-*NOTE: The files in this repo have been simplified from the original implementation from the miPic app, to focus on the key topic of feature flagging*
+*NOTE: To focus on the key topic of feature flagging, the files in this repo have been simplified from the original implementation from the miPic app*
 
 ## Overview
 
