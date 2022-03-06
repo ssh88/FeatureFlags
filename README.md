@@ -3,11 +3,13 @@
 
 ## Overview
 
-When I was working on the miPic app, I was eager to implement a feature flagging tool. This not only to be able to hide unfinished features behind a flag, but also to show the rest of the team the power of feature flagging, from a/b split testing to being able to remotely change things indapendantly of a back end.
+When I was working on the miPic app, I was eager to implement a feature flagging tool. This was not only to be able to hide unfinished features behind a flag, but also to show the rest of the team the power of feature flagging, from a/b testing to being able to remotely change things indapendantly of a back-end.
 
-I was an early adopter of Firebase remote config, and quickly was able to build a basic feature flagging tool into the app. I even had created a hidden debugging menu appropeiatley named Area 51, that was only accessible in our interal build of the app.
+I was an early adopter of Firebase remote config, and quickly was able to build a basic feature flagging tool into the app. In the past I had created a hidden debugging menu appropeiatley named Area 51, that was only accessible in our interal build of the app, which had various tools such as an environment selector, push notification tests and deep link tester.
 
 Once the feature flagging was possible in the app, I wrapped a UI around it that was accessible inside area 51. This allowed team memebers such as QA's and our product owner to be able to easily flag features on and off locally, without having to understand how to use the firebase dashboard. They buy-in was immediate, very quickly I was being asked to leverage feature flagging more frequestly, for example being able to show a Black Friday sales banner, that we could remotely update the text and promo codes
+
+![IMG_5606](https://user-images.githubusercontent.com/3674185/156945551-0b8260df-64b0-4c5f-970c-fcb1e212c954.PNG)
 
 Though an extremely useful and powerful, the pain points of my original implimentation became apperent very quickly. 
 
