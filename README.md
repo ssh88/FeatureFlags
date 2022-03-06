@@ -159,7 +159,6 @@ This is illustrated in the below flow diagram.
 
 ![Feature Flags Priority Flow](https://user-images.githubusercontent.com/3674185/156943997-db48b1e0-929b-41f5-94a2-d690ed937ef1.jpg)
 
-
 Given the value could be of any type, we use a generic function to fetch the value from the priority order:
 
 ```
@@ -189,6 +188,11 @@ Here we are fetching the default fall back value from the json config file:
     }
 ```
 
+A value is cached locally in `UserDefaults` via the feature flag debug menu, any time a value is changed in that menu we cache it so it takes priorty order when read.
+
+Below is a diagram on how the config files, script, generated files and debug menu interact.
+
+## Diagram
 
 ![Feature Flagging](https://user-images.githubusercontent.com/3674185/156943989-707e739e-163e-4f09-941d-45b4cc533eec.jpg)
 
