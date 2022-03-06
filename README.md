@@ -134,7 +134,6 @@ guard featureFlags.applePayEnabled else {
 a more clean and friendly api. Also notice we are no longer using the shared instance of the Feature Flag Manager!
 
 
-
 ##### pre-build phase
 
 The next important step was to put this into an automation flow. The ideal candiated was using Xcodes build phases, where we can run the script at compile time. 
@@ -158,7 +157,7 @@ The feature flag manager is responsible for retrieving values in a given priorti
 
 This is illustrated in the below flow diagram.
 
-![Flow](https://user-images.githubusercontent.com/3674185/156943927-063c5e02-b283-482c-b94a-9c001ab79fdd.jpg)
+![Feature Flags Priority Flow](https://user-images.githubusercontent.com/3674185/156943997-db48b1e0-929b-41f5-94a2-d690ed937ef1.jpg)
 
 
 Given the value could be of any type, we use a generic function to fetch the value from the priority order:
@@ -191,5 +190,6 @@ Here we are fetching the default fall back value from the json config file:
 ```
 
 
+![Feature Flagging](https://user-images.githubusercontent.com/3674185/156943989-707e739e-163e-4f09-941d-45b4cc533eec.jpg)
 
-![Feature Flagging drawio](https://user-images.githubusercontent.com/3674185/156943931-accde776-7d27-47f5-a016-7be5fb5505ed.png)
+
