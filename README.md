@@ -20,11 +20,13 @@ To add a new feature flag involved various steps:
 3. create a new Feature object in our feature flags array
 4. Using the flag meant using a very verbose api
 
+
 ```
 guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
     return false
 }
 ```
+**miPic Feature Flag debug menu
 
 This was not a scaleable solution, so I decided to try an automate the process as much as possible and clean up the api. 
 
