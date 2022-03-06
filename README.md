@@ -9,9 +9,10 @@ I was an early adopter of Firebase remote config and was quickly able to build a
 
 Once the feature flagging was possible in the app, I wrapped a UI around it and made it accessible inside our Area 51 debug menu. This allowed team members such as QAs and our product owner to be able to easily flag features on and off locally, without having to understand how to use the Firebase dashboard.
 
-
+<p>
 <img src="https://user-images.githubusercontent.com/3674185/156945551-0b8260df-64b0-4c5f-970c-fcb1e212c954.PNG" alt="T=Feature Flagging" height="200"/>
-**miPic Feature Flag debug menu
+*miPic Feature Flag debug menu*
+ </p>
 
 The buy-in was immediate, very quickly I was being asked to leverage feature flagging more frequently, for example being able to show a Black Friday sales banner, where we could remotely update the text and promo codes.
 
