@@ -137,7 +137,7 @@ guard featureFlags.applePayEnabled else {
 }
 ```
 
-a more clean and friendly API. Also notice we are no longer using the shared instance of the Feature Flag Manager!
+a more clean and friendly API. Also notice we are no longer using the shared instance of the `FeatureFlagManager` allowing this to be tested correctly!
 
 
 ##### pre-build phase
