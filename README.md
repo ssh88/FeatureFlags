@@ -3,44 +3,43 @@
 
 ## Overview
 
-When I was working on the miPic app, I was eager to implement a feature flagging tool. This was not only to be able to hide unfinished features behind a flag, but also to show the rest of the team the power of feature flagging, from a/b testing to being able to remotely change things indapendantly of a back-end.
+When I was working on the miPic app, I was eager to implement a feature flagging tool. This was not only to be able to hide unfinished features behind a flag but also to show the rest of the team the power of feature flagging, from a/b testing to being able to remotely change things independently of a back-end.
 
-I was an early adopter of Firebase remote config, and quickly was able to build a basic feature flagging tool into the app. In the past I had created a hidden debugging menu appropeiatley named Area 51, that was only accessible in our interal build of the app, which had various tools such as an environment selector, push notification tests and deep link tester.
+I was an early adopter of Firebase remote config and was quickly able to build a basic feature flagging tool around it. In the past I had created a hidden debugging menu appropriately named Area 51, that was only accessible in the internal build of our app, which had various tools such as an environment selector, push notification tester and deep link tester.
 
-Once the feature flagging was possible in the app, I wrapped a UI around it that was accessible inside area 51. This allowed team memebers such as QA's and our product owner to be able to easily flag features on and off locally, without having to understand how to use the firebase dashboard. They buy-in was immediate, very quickly I was being asked to leverage feature flagging more frequestly, for example being able to show a Black Friday sales banner, that we could remotely update the text and promo codes
+Once the feature flagging was possible in the app, I wrapped a UI around it and made it accessible inside our Area 51 debug menu. This allowed team members such as QAs and our product owner to be able to easily flag features on and off locally, without having to understand how to use the Firebase dashboard.
+
 
 <img src="https://user-images.githubusercontent.com/3674185/156945551-0b8260df-64b0-4c5f-970c-fcb1e212c954.PNG" alt="T=Feature Flagging" height="200"/>
+**miPic Feature Flag debug menu
 
-Though an extremely useful and powerful, the pain points of my original implimentation became apperent very quickly. 
+The buy-in was immediate, very quickly I was being asked to leverage feature flagging more frequently, for example being able to show a Black Friday sales banner, where we could remotely update the text and promo codes.
 
-To add a new feature flag involved various steps:
+Though extremely useful and powerful, the pain points of my original implementation became apparent very quickly. 
+Adding a new feature flag involved various steps:
 
-1. Add the new flag to firebase remote config
-2. add the new flag constant to our feaature flags constant file
-3. create a new Feature object in our feature flags array
-4. Using the flag meant using a very verbose api
-
-
+1. Add the new flag to Firebase remote config
+2. Add the new flag constant to our feature flags constant file
+3. Create a new Feature object in our feature flags array
+4. Using the flag involved a verbose API (shown below)
 ```
 guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
     return false
 }
 ```
-**miPic Feature Flag debug menu
 
-This was not a scaleable solution, so I decided to try an automate the process as much as possible and clean up the api. 
-
-This automation is the subject of the article.
+This was not a scalable solution, so I decided to try and automate the process as much as possible and clean up the API, which is the subject of this article.
 
 ## Implementation
 
 
-### Compile time Scripting!!!
+### Scripting!!!
+
+One of my favourite things about Swift is the ability to use it for scripting. My goal was to create a script to generate a few files which were mostly boilerplate code.
 
 #### Config Files
 
-One of my favourite things about swift is the ability to use it for scripting. My goal was to use a script to generate a few key files and only leave the actual use of the flag as the manual step.
-the first step was to move away from hard-coding all of the various flags and use a json config file, meaning we could simply configure our flags in one place.
+The first step was to move away from hard-coding all of the flags and use a JSON config file, allowing us to configure our flags in one place, as shown below:
 
 ```
 [
@@ -57,23 +56,23 @@ the first step was to move away from hard-coding all of the various flags and us
 ]
 ```
 
-In conjuection with this json file, I created a plist config file to declare the following properties
+In conjunction with this JSON file, I created a plist config file to declare the following properties
 
- | Key                       | Description           		   	    |
- | ------------------------- | ------------------------------------ |
- |	inputilePath			 |	file pah feature flags json file    | 
- |	outpuFilePath			 |	file pah for generated files        | 
- |	outpuFilename			 |	filename/prefix for generated file  | 
+ | Key                       | Description           		   	    	 |
+ | ------------------------- | ----------------------------------------- |
+ |	inputFilePath			 |	file path of our feature flags json file | 
+ |	outpuFilePath			 |	file path for the generated files        | 
+ |	outpuFilename			 |	filename/prefix for generated file  	 | 
 
 
-leveraging config files allowed me to build a flexible and resuable tool, which could be used by any future projects or even open-sourced...when I had the time.
+leveraging config files allowed me to build an isolated, flexible and reusable tool, which could be used by future projects or even open-sourced...when I had the time.
 
 
 ##### The Script
 
 The next step was to create a script that could use these config files and generate `.swift` files that would be used inside the miPic codebase.
 
-For the above example json file, the script would ouput the following:
+For the above example JSON file, the script outputs the following:
 
 ```
 
@@ -109,25 +108,26 @@ class FeatureFlags {
 There are 3 key things that we now got for free without any manual intervention
 
 1. `FeatureVariable`
+
 An enum that has cases for each feature flag key
 
 2. `FeatureFlagManager`
 
-A protocol that a concrete feature flag manager should conform to, one that is backed by a feature flagging library, for example Firebase remote config. It allows us to fetch values such a bool, string or Int.
+A protocol that a concrete feature flag manager should conform to, one that is backed by a feature flagging library, for example, Firebase remote config. It allows us to fetch values such as a bools, strings or Ints.
 
 3. `FeatureFlags`
 
-Finally our feature flagging concrete class, this can be injected around our codebase enabling us to access feature flag variables.
+Finally, our feature flagging concrete class, which can be injected around our codebase enabling us to access feature flag variables.
 
 
-In addition to this files being automatically generated, as you can see, we now have vars that have their own getter functions declared, meaning we can move away from this:
+In addition to these files being automatically generated, we now have vars with their getters implemented, meaning we can move away from this:
 ```
 guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
     return false
 }
 ```
 
-and now usse this
+and now use this
 
 ```
 guard featureFlags.applePayEnabled else {
@@ -135,29 +135,29 @@ guard featureFlags.applePayEnabled else {
 }
 ```
 
-a more clean and friendly api. Also notice we are no longer using the shared instance of the Feature Flag Manager!
+a more clean and friendly API. Also notice we are no longer using the shared instance of the Feature Flag Manager!
 
 
 ##### pre-build phase
 
-The next important step was to put this into an automation flow. The ideal candiated was using Xcodes build phases, where we can run the script at compile time. 
-With this now in places our new work flow would be:
+The next important step was to put this into an automation flow. The ideal candidate was using Xcode's build phases, where we can run the script at compile time. 
+With this now in place our new workflow would be:
 
 1. Add the new flag to firebase remote config
-2. add the new flag to our feature flags json config file
+2. add the new flag to our feature flags JSON config file
 
-Now when the app is built, we have access to the feature flag in code!
+Now when the app is built, we have access to the feature flag in the code!
 
 
 ### Feature Flags Manager
 
 From an implementation point, the only customisations needed are to create a concrete class for our `FeatureFlagManager` protocol
 
-The feature flag manager is responsible for retrieving values in a given priortiy order which is as follows:
+The feature flag manager is responsible for retrieving values in a given priority order which is as follows:
 
- - 1. First checks local cache (UserDefaults), as we may have updated a value using the debug menu, if one is found it takes priority
- - 2. If there is no local value, we try to use the latest remote value.
- - 3. if the remote value can not be found - maybe due to no connection, on first load, or there is no remote value for this key - we use the json config file as the fall back
+ - 1. First checks local cache (UserDefaults), as we may have updated a value using the debug menu. If one is found it takes priority.
+ - 2. If there is no local value, we try to use the remote value. In this example it would fetch the value from Firebase.
+ - 3. If the remote value can not be found - may be due to no connection, this is the first launch, or there is no remote value for this key - we use the JSON config file as the fallback.
 
 This is illustrated in the below flow diagram.
 
@@ -178,7 +178,7 @@ Given the value could be of any type, we use a generic function to fetch the val
     }
 ```
 
-Here we are fetching the default fall back value from the json config file:
+Here we are fetching the default fallback value from the JSON config file:
 
 ```
  func defaultValue<T>(for key: String, _ type: T.Type) -> T? {
@@ -189,14 +189,16 @@ Here we are fetching the default fall back value from the json config file:
                 return value
             }
             .first
-    }
+ }
 ```
 
-A value is cached locally in `UserDefaults` via the feature flag debug menu, any time a value is changed in that menu we cache it so it takes priorty order when read.
+#### Caching
 
-Below is a diagram on how the config files, script, generated files and debug menu interact.
+A value is cached locally in `UserDefaults` via the feature flag debug menu, any time a value is changed in that menu we cache it so it takes priority order when read.
+
 
 ## Diagram
+Below is an illustration of how the config files, script, generated files and debug menu interact.
 
 ![Feature Flagging](https://user-images.githubusercontent.com/3674185/156943989-707e739e-163e-4f09-941d-45b4cc533eec.jpg)
 
