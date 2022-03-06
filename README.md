@@ -79,8 +79,8 @@ For the above example JSON file, the script outputs the following:
 ```
 
 enum FeatureVariable: String {
-    case showCheckoutReviewRequest
-    case showPublicUploadReviewRequest
+    case featureA
+    case featureB
 }
 
 protocol FeatureFlagManager {
