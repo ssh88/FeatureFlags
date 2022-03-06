@@ -119,7 +119,7 @@ A protocol that a concrete feature flag manager should conform to, one that is b
 
 3. `FeatureFlags`
 
-Finally, our feature flagging concrete class can be injected around our codebase enabling us to access feature flag variables.
+Finally, our feature flagging concrete class that can be injected around our codebase enabling us to access feature flag variables.
 
 
 In addition to these files being automatically generated, we now have vars with their getters implemented, meaning we can move away from this:
