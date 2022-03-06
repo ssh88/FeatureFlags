@@ -1,5 +1,6 @@
 # Feature Flagging
 
+*NOTE: The files in this repo have been simplified from the original implementation from the miPic app, to focus on the key topic of feature flagging*
 
 ## Overview
 
@@ -12,7 +13,7 @@ Once the feature flagging was possible in the app, I wrapped a UI around it and 
 <p>
 <img src="https://user-images.githubusercontent.com/3674185/156945551-0b8260df-64b0-4c5f-970c-fcb1e212c954.PNG" alt="T=Feature Flagging" height="200"/>
  </p>
- *miPic Feature Flag debug menu*
+ *miPic Feature Flag debug menu*. 
 
 The buy-in was immediate, very quickly I was being asked to leverage feature flagging more frequently, for example being able to show a Black Friday sales banner, where we could remotely update the text and promo codes.
 
@@ -114,11 +115,11 @@ An enum that has cases for each feature flag key
 
 2. `FeatureFlagManager`
 
-A protocol that a concrete feature flag manager should conform to, one that is backed by a feature flagging library, for example, Firebase remote config. It allows us to fetch values such as a bools, strings or Ints.
+A protocol that a concrete feature flag manager should conform to, one that is backed by a feature flagging library, for example, Firebase remote config. It allows us to fetch values such as bools, strings or Ints.
 
 3. `FeatureFlags`
 
-Finally, our feature flagging concrete class, which can be injected around our codebase enabling us to access feature flag variables.
+Finally, our feature flagging concrete class can be injected around our codebase enabling us to access feature flag variables.
 
 
 In addition to these files being automatically generated, we now have vars with their getters implemented, meaning we can move away from this:
@@ -157,7 +158,7 @@ From an implementation point, the only customisations needed are to create a con
 The feature flag manager is responsible for retrieving values in a given priority order which is as follows:
 
  - 1. First checks local cache (UserDefaults), as we may have updated a value using the debug menu. If one is found it takes priority.
- - 2. If there is no local value, we try to use the remote value. In this example it would fetch the value from Firebase.
+ - 2. If there is no local value, we try to use the remote value. In this example, it would fetch the value from Firebase.
  - 3. If the remote value can not be found - may be due to no connection, this is the first launch, or there is no remote value for this key - we use the JSON config file as the fallback.
 
 This is illustrated in the below flow diagram.
