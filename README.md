@@ -92,10 +92,10 @@ protocol FeatureFlagManager {
 }
 
 class FeatureFlags {
-    let featureManager: FeatureManager
+    let featureFlagManager: FeatureFlagManager
 
-    init(featureManager: FeatureManager) {
-        self.featureManager = featureManager
+    init(featureFlagManager: FeatureFlagManager) {
+        self.featureFlagManager = featureFlagManager
     }
 
     var featureA: Bool {
