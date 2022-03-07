@@ -25,6 +25,7 @@ Adding a new feature flag involved various steps:
 2. Add the new flag constant to our feature flags constant file
 3. Create a new Feature object in our feature flags array
 4. Using the flag involved a verbose API (shown below)
+5. The feature manager used a singleton pattern, which meant it was not used via dependency injection and therefore harder to test correctly
 ```
 guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
     return false
