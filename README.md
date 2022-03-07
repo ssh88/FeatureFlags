@@ -4,7 +4,7 @@
 
 ## Overview
 
-When I was working on the miPic app, I was eager to implement a feature flagging tool. This was not only to be able to hide unfinished features behind a flag but also to show the rest of the team the power of feature flagging, from a/b testing to being able to remotely change things independently of a back-end.
+When I was working on the miPic app, I was eager to implement a feature flagging tool. This was not only to be able to hide unfinished features behind a flag but also to show the rest of the team the power of feature flagging, from a/b testing to being able to remotely change things independent of a back-end.
 
 I was an early adopter of Firebase remote config and was quickly able to build a basic feature flagging tool around it. In the past I had created a hidden debugging menu appropriately named Area 51, that was only accessible in the internal build of our app, which had various tools such as an environment selector, push notification tester and deep link tester.
 
