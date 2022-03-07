@@ -27,9 +27,7 @@ Adding a new feature flag involved various steps:
 4. The feature manager used a singleton pattern, which meant it was not used via dependency injection and therefore harder to test correctly
 5. Using the flag involved a verbose API (shown below)
 ```swift
-guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
-    return false
-}
+guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else { return }
 ```
 
 This was not a scalable solution, so I decided to try and automate the process as much as possible and clean up the API, which is the subject of this article.
@@ -125,17 +123,13 @@ Finally, our feature flagging concrete class that can be injected around our cod
 
 In addition to these files being automatically generated, we now have vars with their getters implemented, meaning we can move away from this:
 ```swift
-guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
-    return false
-}
+guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else { return }
 ```
 
 and now use this
 
 ```swift
-guard featureFlags.applePayEnabled else {
-    return false
-}
+guard featureFlags.applePayEnabled else { return }
 ```
 
 a more clean and friendly API. Also notice we are no longer using the shared instance of the `FeatureFlagManager` allowing this to be tested correctly!
