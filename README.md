@@ -26,7 +26,7 @@ Adding a new feature flag involved various steps:
 3. Create a new Feature object in our feature flags array
 4. The feature manager used a singleton pattern, which meant it was not used via dependency injection and therefore harder to test correctly
 5. Using the flag involved a verbose API (shown below)
-```
+```swift
 guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
     return false
 }
@@ -45,7 +45,7 @@ One of my favourite things about Swift is the ability to use it for scripting. M
 
 The first step was to move away from hard-coding all of the flags and use a JSON config file, allowing us to configure our flags in one place, as shown below:
 
-```
+```json
 [
     {
         "key": "featureA",
@@ -78,7 +78,7 @@ The next step was to create a script that could use these config files and gener
 
 For the above example JSON file, the script outputs the following:
 
-```
+```swift
 enum FeatureVariable: String {
     case featureA
     case featureB
@@ -124,7 +124,7 @@ Finally, our feature flagging concrete class that can be injected around our cod
 
 
 In addition to these files being automatically generated, we now have vars with their getters implemented, meaning we can move away from this:
-```
+```swift
 guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
     return false
 }
@@ -132,7 +132,7 @@ guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) els
 
 and now use this
 
-```
+```swift
 guard featureFlags.applePayEnabled else {
     return false
 }
@@ -167,7 +167,7 @@ This is illustrated in the below flow diagram.
 
 Given the value could be of any type, we use a generic function to fetch the value from the priority order:
 
-```
+```swift
     func value<T>(for key: String, _ type: T.Type) -> T? {
         if let localValue = localValue(for: key) as? T {
             return localValue
@@ -182,7 +182,7 @@ Given the value could be of any type, we use a generic function to fetch the val
 
 Here we are fetching the default fallback value from the JSON config file:
 
-```
+```swift
  func defaultValue<T>(for key: String, _ type: T.Type) -> T? {
         defaultValues
             .filter { $0.name == key }
