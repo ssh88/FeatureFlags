@@ -119,27 +119,27 @@ extension DefaultFeatureFlagManager {
      Gets the local value from user defaults if there is one
      */
     private func localValue(for key: String) -> Any? {
-        let experimentsData = localData()
-        return experimentsData[key]
+        let localData = localData()
+        return localData[key]
     }
     
     /**
      Sets the local value in user defaults
      */
    public func set(localValue: Any, for key: String) {
-        var experimentsData = localData()
-        experimentsData[key] = localValue
-        UserDefaults.standard.set(experimentsData, forKey: featureFlagsCacheKey)
+        var localData = localData()
+        localData[key] = localValue
+        UserDefaults.standard.set(localData, forKey: featureFlagsCacheKey)
     }
     
     /**
      Gets the local value store from user defaults
      */
     private func localData() -> [String: Any] {
-        guard let experimentsData = UserDefaults.standard.value(forKeyPath: featureFlagsCacheKey) as? [String: Any] else {
+        guard let localData = UserDefaults.standard.value(forKeyPath: featureFlagsCacheKey) as? [String: Any] else {
             return [String: Any]()
         }
-        return experimentsData
+        return localData
     }
     
     /**
