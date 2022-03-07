@@ -24,8 +24,8 @@ Adding a new feature flag involved various steps:
 1. Add the new flag to Firebase remote config
 2. Add the new flag constant to our feature flags constant file
 3. Create a new Feature object in our feature flags array
-4. Using the flag involved a verbose API (shown below)
-5. The feature manager used a singleton pattern, which meant it was not used via dependency injection and therefore harder to test correctly
+4. The feature manager used a singleton pattern, which meant it was not used via dependency injection and therefore harder to test correctly
+5. Using the flag involved a verbose API (shown below)
 ```
 guard FeatureFlagsManager.shared.string(for: FeatureFlagKey.applePayEnabled) else {
     return false
