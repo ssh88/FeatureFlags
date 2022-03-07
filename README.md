@@ -196,8 +196,7 @@ Here we are fetching the default fallback value from the JSON config file:
 
 #### Caching
 
-A value is cached locally in `UserDefaults` via the feature flag debug menu, any time a value is changed in that menu we cache it so it takes priority order when read.
-
+A value is cached locally in `UserDefaults` via the feature flag debug menu, any time a value is changed in that menu we cache it so it takes priority order when read. The debug menu UI also can clear the cache, resetting the priority order back to the remote.
 
 ## Diagram
 Below is an illustration of how the config files, script, generated files and debug menu interact.
