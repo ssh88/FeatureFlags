@@ -1,0 +1,12 @@
+[
+    {
+        "key": "featureA",
+        "value": false,
+        "description": "Cool feature A"
+    },
+    {
+        "key": "featureB",
+        "value": "use code SALE to get 25% off",
+        "description": "another cool feature, that is a string"
+    }
+]
