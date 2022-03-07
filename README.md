@@ -47,12 +47,12 @@ The first step was to move away from hard-coding all of the flags and use a JSON
 ```
 [
     {
-        "name": "featureA",
+        "key": "featureA",
         "description": "Cool feature A that is a bool",
         "value": false
     },
     {
-        "name": "featureB",
+        "key": "featureB",
         "description": "another cool feature, that is a string",
         "value": "use code SALE to get 25% off"
     }
