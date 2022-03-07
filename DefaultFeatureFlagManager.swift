@@ -40,10 +40,10 @@ class DefaultFeatureFlagManager: FeatureFlagManager {
     }
     
     /**
-     Fetches a value for a key in a given priority order:
-        1. First checks local cache, as we may have updated a value using the debug menu
-        2. If there is no local value, we try to use the latest remote value
-        3. if the remote value can not be used (maybe no connection, or there is no remote value for this key) we use the fall back json file
+     Fetches a value for a key in given priority order:
+     1. First checks local cache, as we may have updated a value using the debug menu
+     2. If there is no local value, we try to use the latest remote value
+     3. if the remote value can not be used (maybe no connection, or there is no remote value for this key) we use the fallback JSON file
      */
     func value<T>(for key: String, _ type: T.Type) -> T? {
         if let localValue = localValue(for: key) as? T {
@@ -57,10 +57,31 @@ class DefaultFeatureFlagManager: FeatureFlagManager {
     }
 }
 
-// MARK: - Default Values
+/*
+ MARK: - Default Values
+ Fall back values, used when remote and local cache fail
+*/
 
 extension DefaultFeatureFlagManager {
     
+    /**
+     Loads defult values from feature.json file
+     */
+    func loadDefaultValues() {
+        guard let filePath = Bundle.main.path(forResource: "Features", ofType: "json") else { return }
+        let url = URL(fileURLWithPath: filePath)
+        do {
+            let data = try Data(contentsOf: url)
+            guard let features = decode([Feature].self, from: data) else { return }
+            defaultValues = features
+        } catch {
+            print("Error: Unable to load local Features.json file  \(error.localizedDescription)")
+        }
+    }
+    
+    /**
+     Gets a default value from the features.json file
+     */
     func defaultValue<T>(for key: String, _ type: T.Type) -> T? {
         defaultValues
             .filter { $0.key == key }
@@ -71,18 +92,9 @@ extension DefaultFeatureFlagManager {
             .first
     }
     
-    func loadDefaultValues() {
-        guard let filePath = Bundle.main.path(forResource: "Features", ofType: "json") else { return }
-        let url = URL(fileURLWithPath: filePath)
-        do {
-            let data = try Data(contentsOf: url)
-            guard let features = decode([Feature].self, from: data) else { return }
-            defaultValues = features
-        } catch {
-            print("Failed to load local Features.json file  \(error.localizedDescription)")
-        }
-    }
-    
+    /**
+     Decodes a Feature model from the features.json file
+     */
     func decode<T: Decodable>(_ type: T.Type, from data: Data?) -> T? {
         guard let data = data else { return nil }
         do {
