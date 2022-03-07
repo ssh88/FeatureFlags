@@ -61,11 +61,11 @@ The first step was to move away from hard-coding all of the flags and use a JSON
 
 In conjunction with this JSON file, I created a plist config file to declare the following properties
 
- | Key                       | Description           		   	    	        |
- | ------------------------- | ---------------------------------------- |
- |	inputFilePath			          |	file path of our feature flags json file | 
- |	outpuFilePath			          |	file path for the generated files        | 
- |	outpuFilename			          |	filename/prefix for generated file  	    | 
+ | Key                        | Description           		   	    	        |
+ | -------------------------- | ---------------------------------------- |
+ |	inputFilePath			           |	file path of our feature flags json file | 
+ |	outputFilePath			          |	file path for the generated files        | 
+ |	outputFilename			          |	filename/prefix for generated file  	    | 
 
 
 leveraging config files allowed me to build an isolated, flexible and reusable tool, which could be used by future projects or even open-sourced...when I had the time.
